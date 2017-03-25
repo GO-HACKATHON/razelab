@@ -58,16 +58,17 @@ regex_region = re.compile(regions, re.IGNORECASE)
 regex_nama = re.compile(names, re.IGNORECASE)
 regex_time_rel = re.compile(rel_day, re.IGNORECASE)
 regex_time_exp1 = re.compile(regxp1, re.IGNORECASE)
+regex_time_day = re.compile(day, re.IGNORECASE)
 
 
 hashweekdays = {
-    'Senin': 0,
-    'Selasa': 1,
-    'Rabu': 2,
+    'senin': 0,
+    'selasa': 1,
+    'rabu': 2,
     'kamis': 3,
-    'Jumat': 4,
-    'Sabtu': 5,
-    'Minggu': 6}
+    'jumat': 4,
+    'sabtu': 5,
+    'minggu': 6}
 
 # Hash function for months to simplify the grounding task.
 # [Jan..Dec] -> [1..12]
@@ -149,6 +150,7 @@ def hashnum(number):
 def find_time(timex, base_date=now):
 	# print("timex:" + timex)
 	date = base_date
+	today = base_date.weekday()
 	timex_val = 'UNKNOWN' # Default value
 	timex_ori = timex   # Backup original timex for later substitution
 	# If numbers are given in words, hash them into corresponding numbers.
@@ -177,12 +179,18 @@ def find_time(timex, base_date=now):
 	elif re.match(r'malam ini|hari ini|sekarang', timex, re.IGNORECASE):
 	    timex_val = str(base_date)
 	    date = base_date
+	# elif re.match()
 	elif re.match(r'kemarin', timex, re.IGNORECASE):
 		date = base_date + timedelta(days=-1)
 		timex_val = str(date)
 	elif re.match(r'besok', timex, re.IGNORECASE):
 		date = base_date + timedelta(days=+1)
 		timex_val = str(date)
+	elif re.match(day, timex, re.IGNORECASE):
+		day_no = hashweekdays[timex]
+		if(day_no < today):
+			day_no += 7
+		date = base_date + timedelta(days=day_no - today)
 
 	# Last, this, next week.
 	elif re.match(r'minggu lalu', timex, re.IGNORECASE):
@@ -333,6 +341,10 @@ def tag_time(text):
 	for timex in found:
 		timex_found.append(timex)
 
+	found = regex_time_day.findall(text)
+	for timex in found:
+		timex_found.append(timex)
+
 	for timex in timex_found:
 		info["waktu"] = str(find_time(timex))
 		text = re.sub(timex, '<waktu>', text)
@@ -383,7 +395,7 @@ def tag(text):
 	return result
 
 def main():
-	chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang sekarang"
+	chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang hari kamis"
 	print("input:")
 	print(chat)
 	result = tag(chat)
