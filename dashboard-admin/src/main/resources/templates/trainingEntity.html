@@ -11,24 +11,56 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="input-group">
-						<span class="input-group-addon" id="sentence_input">Entity</span> <input
-							type="text" class="form-control"
-							placeholder="contoh: makanan, layanan"
-							aria-describedby="basic-addon1"></input>
-					</div>
-					<br></br>
-					<div class="input-group">
-						<span class="input-group-addon" id="parent_intent_input">Member</span> <input
-							type="text" class="form-control"
-							placeholder="Contoh: mie ayam, tempe, tahu, sate padang"
-							aria-describedby="basic-addon1"></input>
-					</div>
-					<br></br>
-					<button type="button" class="col-lg-12 btn btn-primary">Record</button>
+					<form th:action="@{/training/entity/record}" th:object="${entityInput}" method="post">
+						<p>
+						<div class="input-group">
+							<span class="input-group-addon">Entity</span>
+							<input type="text" th:field="*{inputEntity}" class="form-control"
+								placeholder="Contoh: makanan, layanan"
+								aria-describedby="basic-addon1"></input>
+						</div>
+						</p>
+
+						<p>
+						<div class="input-group">
+							<span class="input-group-addon" id="parent_intent_input">Member</span>
+							<input type="text" th:field="*{inputMembers}" class="form-control"
+								placeholder="Contoh: mie ayam,tempe,tahu,sate padang (koma tanpa spasi)"
+								aria-describedby="basic-addon1"/>
+						</div>
+						</p>
+
+
+						<p>
+							<input class="btn btn-default" type="submit" value="Record" />
+						</p>
+					</form>
+
 				</div>
 			</div>
+			<br></br>
+			<table class="table">
+				<tr>
+					<td><h3>Entity</h3></td>
+					<td><h3>Member</h3></td>
+					<td><h3>Action</h3></td>
+				</tr>
+				<tr th:each="entity : ${entities}">
+					<td th:text="${entity.entity}"></td>
+					<td>
+						<ul>
+							<li th:each="member : ${entity.member}" th:text="${member}">Item
+								description here...</li>
+						</ul>
+					</td>
+					<td>Action</td>
+				</tr>
+			</table>
 		</div>
+
+
+
+
 	</header>
 
 	<!-- Footer -->
