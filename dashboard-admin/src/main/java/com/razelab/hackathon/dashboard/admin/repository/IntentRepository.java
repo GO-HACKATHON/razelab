@@ -16,18 +16,18 @@ public class IntentRepository {
     MongoTemplate mongoTemplate;
 	
 	public long countAllEntity() {
-        return mongoTemplate.count(null, EngineEntity.class);
+        return mongoTemplate.count(null, EngineIntent.class);
     }
 	
 	public List<EngineIntent> findAll(){
 		return mongoTemplate.findAll(EngineIntent.class);
 	}
 	
-	public void insertNewEntity(EngineEntity entity){
-		mongoTemplate.insert(entity);
+	public void insertNewIntent(EngineIntent intent){
+		mongoTemplate.insert(intent);
 	}
 	
-	public void updateEntity(EngineEntity entity){
+	public void updateEntity(EngineIntent entity){
 	}
 	
 }

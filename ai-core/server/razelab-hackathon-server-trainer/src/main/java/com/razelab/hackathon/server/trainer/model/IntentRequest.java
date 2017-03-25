@@ -1,17 +1,10 @@
-package com.razelab.hackathon.dashboard.admin.model;
+package com.razelab.hackathon.server.trainer.model;
 
-public class EngineIntent {
-
+public class IntentRequest {
 	String sentence;
 	String parentIntent;
 	String currentIntent;
 	
-	public EngineIntent(String sentence, String parentIntent, String currentIntent) {
-		super();
-		this.sentence = sentence;
-		this.parentIntent = parentIntent;
-		this.currentIntent = currentIntent;
-	}
 	public String getSentence() {
 		return sentence;
 	}
@@ -33,4 +26,6 @@ public class EngineIntent {
 	
 	
 	
+	
+
 }
