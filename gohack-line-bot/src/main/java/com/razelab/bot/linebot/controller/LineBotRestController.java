@@ -44,8 +44,10 @@ public class LineBotRestController {
 		for(int i = 0;i<eventN;i++){
 			MessageEvent<TextMessageContent> event = (MessageEvent<TextMessageContent>) body.getEvents().get(i);
 			
+			AiProfile profile = new AiProfile("line",event.getSource().getUserId());
+			String profileName = getProfileName(profile.getIdNumber());
 			//process AI output something
-			AiReply test = new AiReply("film","none","Hi Gojek Hackathon","movie","Beauty and The Beast");
+			AiReply test = new AiReply("film","none","Hi "+profileName+", ini adalah demo untuk Gojek Hackathon","movie","Beauty and The Beast");
 			
 			//Line Bot reply service
 			replyService.compose(event, test);
