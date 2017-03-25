@@ -1,0 +1,269 @@
+Gambir
+Bendungan Hilir
+Menteng
+Senen
+Cempaka Putih Timur
+Galur
+Kebon Kelapa
+Karet Tengsin
+Pegangsaan
+Kwitang
+Cempaka Putih Barat
+Tanah Tinggi
+Petojo Selatan
+Kebon Melati
+Cikini
+Kenari
+Rawasari
+Kampung Rawa
+Duri Pulo
+Kebon Kacang
+Kebon Sirih
+Paseban
+Johar Baru
+Cideng
+Kampung Bali
+Gondangdia
+Kramat			
+Petojo Utara
+Petamburan
+Bungur
+Gelora
+Gunung Sahari Selatan
+Pasar Baru
+Kemayoran
+Gunung Sahari Utara
+Kebon Kosong
+Mangga Dua Selatan
+Harapan Mulya
+Karang Anyar
+Cempaka Baru
+Kartini
+Utan Panjang
+Sumur Batu
+Serdang
+Koja Utara
+Kelapa Gading Barat
+Tanjung Priok
+Pademangan Timur
+Penjaringan
+Kali Baru
+Koja Selatan
+Kelapa Gading Timur
+Kebon Bawang
+Pademangan Barat
+Pluit
+Cilincing
+Rawa Badak Utara
+Pegangsaan Dua
+Sungai Bambu
+Ancol
+Pejagalan
+Semper Barat
+Rawa Badak Selatan
+Papanggo
+Kapuk Muara
+Semper Timur
+Tugu Utara
+Warakas
+Kamal Muara
+Sukapura
+Tugu Selatan
+Sunter Agung
+Rorotan
+Lagoa
+Sunter
+Marunda
+Pisangan Baru
+Kayu Putih
+Bali Mester
+Pondok Bambu
+Kramat Jati
+Utan Kayu Selatan
+Jati
+Kampung Melayu
+Duren Sawit	
+Batu Ampar
+Utan Kayu Utara
+Rawamangun
+Bidaracina	
+Pondok Kelapa
+Balekambang	
+Kayu Manis
+Pisangan Timur
+Cipinang Cempedak
+Pondok Kopi
+Kampung Tengah
+Pal Meriam
+Cipinang
+Rawa Bunga
+Malaka Jaya
+Dukuh
+Kebon Manggis
+Jatinegara Kaum
+Cipinang Besar Utara
+Malaka Sari
+Cawang
+Pulo Gadung
+Cipinang Besar Selatan
+Klender
+Cililitan
+Cipinang Muara
+Pinang Ranti
+Pekayon	
+Cibubur
+Lubang Buaya
+Cakung
+Makasar
+Kampung Gedong
+Kelapa Dua Wetan
+Ceger
+Cakung Timur
+Halim Perdanakusuma
+Cijantung
+Ciracas
+Cipayung
+Rawa Terate
+Cipinang Melayu
+Kampung Baru
+Susukan
+Munjul
+Jatinegara
+Kebon Pala
+Kalisari
+Rambutan
+Pondok Ranggon
+Penggilingan
+Cilangkap
+Pulogebang
+Setu
+Ujung Menteng
+Bambu Apus
+Selong
+Grogol Utara
+Ulujami
+Cipete Selatan
+Pejaten Barat
+Gunung
+Grogol Selatan
+Petukangan Utara
+Gandaria Selatan
+Pejaten Timur
+Kramat Pela
+Cipulir
+Petukangan Selatan
+Cilandak Barat
+Pasar Minggu
+Gandaria Utara
+Kebayoran Lama Utara
+Pesanggrahan
+Lebak Bulus
+Kebagusan
+Cipete Utara
+Kebayoran Lama Selatan
+Bintaro
+Pondok Labu	
+Jati Padang
+Pulo
+Pondok Pinang
+Ragunan
+Melawai
+Pondok Indah
+Cilandak Timur
+Petogogan
+Rawa Barat
+Senayan
+Tanjung Barat
+Kuningan Barat
+Kalibata	
+Tebet Barat
+Setiabudi
+Lenteng Agung
+Pela Mampang
+Rawa Jati
+Tebet Timur
+Karet	
+Jagakarsa
+Bangka
+Duren Tiga
+Kebon Baru	
+Karet Semanggi
+Ciganjur
+Tegal Parang
+Cikoko
+Bukit Duri
+Karet Kuningan
+Srengseng Sawah
+Mampang Prapatan
+Pengadegan
+Manggarai
+Kuningan Timur
+Cipedak	
+Pancoran
+Manggarai Selatan
+Menteng Atas
+Menteng Dalam
+Pasar Manggis
+Guntur
+Kedaung Kali Angke
+Tomang
+Kamal
+Duri Kepa
+Kembangan Selatan
+Slipi
+Kapuk
+Grogol
+Tegal Alur
+Kedoya Selatan
+Kembangan Utara
+Kota Bambu Utara
+Cengkareng Barat
+Jelambar
+Pegadungan
+Kedoya Utara
+Meruya Utara
+Jati Pulo
+Cengkareng Timur
+Jelambar Baru
+Kalideres
+Kebon Jeruk
+Srengseng
+Palmerah
+Rawa Buaya
+Wijaya Kusuma
+Semanan
+Sukabumi Utara
+Joglo
+Kemanggisan
+Duri Kosambi
+Tanjung Duren Utara	
+Kelapa Dua
+Meruya Selatan
+Kota Bambu Selatan
+Tanjung Duren Selatan
+Sukabumi Selatan
+Pinangsia
+Tanah Sereal
+Glodok
+Tambora
+Keagungan
+Roa Malaka
+Krukut	
+Pekojan
+Taman Sari
+Jembatan Lima
+Maphar
+Krendang
+Tangki
+Duri Utara
+Mangga Besar
+Duri Selatan
+Kalianyar
+Jembatan Besi
+Angke
+Pulau Kelapa
+Pulau Tidung
+Pulau Harapan
+Pulau Pari
+Pulau Untung Jawa
+Pulau Panggang
