@@ -298,6 +298,10 @@ def tag(text):
 
 def main():
 	chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang hari kamis"
+	input_filename="usage/inputChat.txt"
+	input_chat = ""
+	with open(input_filename) as f:
+		input_chat = f.read()
 	print("input:")
 	print(chat)
 	result = tag(chat)
@@ -305,6 +309,7 @@ def main():
 	print(result)
 	print("info")
 	print(info)
+
 
 
 if __name__ == '__main__':
