@@ -1,6 +1,7 @@
 from os import listdir
 from os.path import basename
 from os.path import isfile
+from os.path import splitext
 
 import pickle
 
@@ -23,16 +24,17 @@ def create_train_db():
 
     intent_dir = "db/intent"
     intent_class = {}
+    parent_dict = {}
+
     train_x = []
     train_y = []
-    parent_dic = {}
-    class_idx = 0
 
+    class_idx = 1
     for filename in listdir("db/intent"):
-        if filename.endswith(".rz"):
-            basefilename = basename(filename)
-            intent_class[basefilename] = class_idx
-            parent_dic = update_parent_dic(basefilename,parent_dic)
+        basename, ext = splitext(filename)
+        if ext == ".rz":
+            intent_class[basename] = class_idx
+            parent_dict = update_parent_dict(basename,parent_dict)
 
             temp_x = open(intent_dir+"/"+filename,'r').read().splitlines()
             temp_y = [class_idx]*len(temp_x)
@@ -40,10 +42,22 @@ def create_train_db():
             train_y.extend(temp_y)
             class_idx += 1
 
-    return train_x, train_y, parent_dic
+    for k,v in parent_dict.items():
+        if v == "None":
+            parent_dict[k] = 0
+        else:
+            parent_dict[k] = intent_class[v]
 
-def update_parent_dic(string, dic):
-    out_dic=dic
+    return train_x, train_y, intent_class, parent_dict
+
+def update_parent_dict(string, dic):
+    out_dic = dic
+
+    head, tail = splitext(string)
+    if tail == "":
+        out_dic[head] = "None"
+    else:
+        out_dic[tail[1:]] = head
 
     return out_dic
 
@@ -51,3 +65,14 @@ def create_train_vocab():
     """Creates custom training vocab for preprocessing
 
     """
+
+    entity_dir = "db/entity"
+    entity_dict = {}
+
+    for filename in listdir("db/entity"):
+        basename, ext = splitext(filename)
+        if ext == ".rz":
+            members = open(entity_dir+"/"+filename,'r').read().splitlines()
+            entity_dict[basename] = members
+
+    return entity_dict

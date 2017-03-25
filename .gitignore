@@ -1,5 +1,7 @@
 # Python
 __pycache__/
 
+target/
+
 # Local db files
 *.rz
