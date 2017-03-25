@@ -1,3 +1,9 @@
+############
+# preprocess.py
+# Description:
+#	This code is for preprocessing input text and parse
+############
+
 import re
 import string
 import os

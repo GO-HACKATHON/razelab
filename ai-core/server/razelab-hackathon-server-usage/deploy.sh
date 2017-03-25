@@ -1,2 +1,4 @@
 mvn clean install
-java -jar target/usage-1.0.0.jar
+cp target/usage-1.0.0.jar ../../trainer/
+cd ../../trainer/
+java -jar usage-1.0.0.jar
