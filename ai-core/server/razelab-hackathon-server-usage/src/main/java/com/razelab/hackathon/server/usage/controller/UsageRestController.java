@@ -21,9 +21,9 @@ public class UsageRestController {
 
 	@RequestMapping(path = "/chatInput", method = RequestMethod.POST)
 	public String chat(@RequestBody ChatInput request) throws IOException {
-		//String filename = "E:\\Projects\\razelab\\gohackathon\\razelab\\ai-core\\trainer\\usage\\inputChat.txt";
+		String filename = "E:\\Projects\\razelab\\gohackathon\\razelab\\ai-core\\trainer\\usage\\inputChat.txt";
 		
-		String filename = "../../../trainer/usage/inputChat.txt";
+		//String filename = "../../../trainer/usage/inputChat.txt";
 		
 		/*
 		 * Writer output; output = new BufferedWriter(new FileWriter(filename,
@@ -34,7 +34,8 @@ public class UsageRestController {
 		fw.write(request.getSentence());
 		fw.close();
 
-		return UsageUtil.runTerminal("python ../../../trainer/preprocess.py");
+		UsageUtil.runTerminal("cd ../../../trainer");
+		return UsageUtil.runTerminal("python preprocess.py");
 	}
 
 }
