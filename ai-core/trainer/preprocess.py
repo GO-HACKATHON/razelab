@@ -4,6 +4,7 @@ import os
 import sys
 import datetime
 import pickle
+import json
 from datetime import timedelta
 
 now = datetime.datetime.now()
@@ -200,105 +201,6 @@ def find_time(timex, base_date=now):
 	    date = base_date + timedelta(weeks=1)
 	    timex_val = str(date)
 	return date
-
-	# # Month in the previous year.
-	# elif re.match(r'last ' + month, timex, re.IGNORECASE):
-	#     month = hashmonths[timex.split()[1]]
-	#     timex_val = str(base_date.year - 1) + '-' + str(month)
-
-	# # Month in the current year.
-	# elif re.match(r'this ' + month, timex, re.IGNORECASE):
-	#     month = hashmonths[timex.split()[1]]  
-	#     timex_val = str(base_date.year) + '-' + str(month)
-
-	# # Month in the following year.
-	# elif re.match(r'next ' + month, timex, re.IGNORECASE):
-	#     month = hashmonths[timex.split()[1]]
-	#     timex_val = str(base_date.year + 1) + '-' + str(month)
-	# elif re.match(r'last month', timex, re.IGNORECASE):
-
-	#     # Handles the year boundary.
-	#     if base_date.month == 1:
-	#         timex_val = str(base_date.year - 1) + '-' + '12'
-	#     else:
-	#         timex_val = str(base_date.year) + '-' + str(base_date.month - 1)
-	# elif re.match(r'this month', timex, re.IGNORECASE):
-	#         timex_val = str(base_date.year) + '-' + str(base_date.month)
-	# elif re.match(r'next month', timex, re.IGNORECASE):
-
-	#     # Handles the year boundary.
-	#     if base_date.month == 12:
-	#         timex_val = str(base_date.year + 1) + '-' + '1'
-	#     else:
-	#         timex_val = str(base_date.year) + '-' + str(base_date.month + 1)
-	# elif re.match(r'last year', timex, re.IGNORECASE):
-	#     timex_val = str(base_date.year - 1)
-	# elif re.match(r'this year', timex, re.IGNORECASE):
-	#     timex_val = str(base_date.year)
-	# elif re.match(r'next year', timex, re.IGNORECASE):
-	#     timex_val = str(base_date.year + 1)
-	# elif re.match(r'\d+ days? (ago|earlier|before)', timex, re.IGNORECASE):
-
-	#     # Calculate the offset by taking '\d+' part from the timex.
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date + RelativeDateTime(days=-offset))
-	# elif re.match(r'\d+ days? (later|after)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date + RelativeDateTime(days=+offset))
-	# elif re.match(r'\d+ weeks? (ago|earlier|before)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     year = (base_date + RelativeDateTime(weeks=-offset)).year
-	#     week = (base_date + \
-	#                     RelativeDateTime(weeks=-offset)).iso_week[1]
-	#     timex_val = str(year) + 'W' + str(week)
-	# elif re.match(r'\d+ weeks? (later|after)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     year = (base_date + RelativeDateTime(weeks=+offset)).year
-	#     week = (base_date + RelativeDateTime(weeks=+offset)).iso_week[1]
-	#     timex_val = str(year) + 'W' + str(week)
-	# elif re.match(r'\d+ months? (ago|earlier|before)', timex, re.IGNORECASE):
-	#     extra = 0
-	#     offset = int(re.split(r'\s', timex)[0])
-
-	#     # Checks if subtracting the remainder of (offset / 12) to the base month
-	#     # crosses the year boundary.
-	#     if (base_date.month - offset % 12) < 1:
-	#         extra = 1
-
-	#     # Calculate new values for the year and the month.
-	#     year = str(base_date.year - offset // 12 - extra)
-	#     month = str((base_date.month - offset % 12) % 12)
-
-	#     # Fix for the special case.
-	#     if month == '0':
-	#         month = '12'
-	#     timex_val = year + '-' + month
-	# elif re.match(r'\d+ months? (later|after)', timex, re.IGNORECASE):
-	#     extra = 0
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     if (base_date.month + offset % 12) > 12:
-	#         extra = 1
-	#     year = str(base_date.year + offset // 12 + extra)
-	#     month = str((base_date.month + offset % 12) % 12)
-	#     if month == '0':
-	#         month = '12'
-	#     timex_val = year + '-' + month
-	# elif re.match(r'\d+ years? (ago|earlier|before)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date.year - offset)
-	# elif re.match(r'\d+ years? (later|after)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date.year + offset)
-
-	# # Remove 'time' from timex_val.
-	# # For example, If timex_val = 2000-02-20 12:23:34.45, then
-	# # timex_val = 2000-02-20
-	# timex_val = re.sub(r'\s.*', '', timex_val)
-
-	# # Substitute tag+timex in the text with grounded tag+timex.
-	# tagged_text = re.sub('<TIMEX2>' + timex_ori + '</TIMEX2>', '<TIMEX2 val=\"' \
-	#     + timex_val + '\">' + timex_ori + '</TIMEX2>', tagged_text)
-
 
 def tag_region(text):
 	regionx_found = []
