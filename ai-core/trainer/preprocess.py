@@ -337,9 +337,26 @@ def tag_entity(pk, text):
 		entities = "("
 		for entity in pk[category]:
 			entities = entities + entity + "|"
-		entities = entities + ")"
-		regex = re.compile(entities, re.IGNORECASE)
-		found = regex.findall(text)
+		s = list(entities)
+		s[-1] = ')'
+		entities = "".join(s)
+		entities_counts = "((\d+|(" + numbers + "[-\s]?)+) " + entities + ")"
+		regex_ent_counts = re.compile(entities_counts, re.IGNORECASE)
+		found = regex_ent_counts.findall(text)
+		print(category)
+		print(found)
+		if(found):
+			for a in found:
+				if len(a)> 1:
+					if(category in info):
+						info[category] += ", " + a[0]
+					else:
+						info[category] = a[0]
+					text = re.sub(a[0], "<"+category+">", text)
+		print(info)
+		#without counting
+		regex_ent = re.compile(entities, re.IGNORECASE)
+		found = regex_ent.findall(text)
 		if(found):
 			for a in found:
 				if len(a)> 1:
@@ -348,6 +365,7 @@ def tag_entity(pk, text):
 					else:
 						info[category] = a
 					text = re.sub(a, "<"+category+">", text)
+
 	return text
 
 def tag(text):
@@ -358,7 +376,7 @@ def tag(text):
 	return result
 
 def main():
-	chat = "Aku mau pesan dua ayam kambing dan coca-cola"
+	chat = "Aku mau pesan 2 ayam kambing dan empat coca-cola di Kemang sekarang"
 	print("input:")
 	print(chat)
 	result = tag(chat)
