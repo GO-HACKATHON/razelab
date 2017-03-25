@@ -3,6 +3,7 @@ import string
 import os
 import sys
 import datetime
+import pickle
 from datetime import timedelta
 
 now = datetime.datetime.now()
@@ -14,12 +15,16 @@ def list_to_predefined(filename):
 			output = output + (line.rstrip()).lower() + "|"
 	return output
 
+# load pickle file
+entity_file = open("entity.pkl","rb")
+pk = pickle.load(entity_file)
+
 # final information consists of region, date, etc
 info = {"nama":"", 
 	"daerah":"", 
 	"waktu":"", 
-	"order":""
 	}
+
 
 
 # list of dictionaries
@@ -27,11 +32,14 @@ info = {"nama":"",
 region_file = "list_region.txt"
 regions = "(" + list_to_predefined(region_file) + ")"
 
+# nama orang
+name_file = "list_name.txt"
+names = "(" + list_to_predefined(name_file) + ")"
+
 numbers = "(^a(?=\s)|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh| \
 		sebelas|dua belas|tiga belas|empat belas|lima belas|enam belas|tujuh belas|delapan belas| \
 		sembilan belas|dua puluh|tiga puluh|empat puluh|lima puluh|enam puluh|tujuh puluh| \
 		delapan puluh|sembilan puluh|seratus|seribu)"
-
 day = "(senin|selasa|rabu|kamis|jumat|sabtu|minggu)"
 month = "(januari|februari|maret|april|mei|juni|juli|agustus|september| \
           oktober|november|desember)"
@@ -41,8 +49,8 @@ iso = "\d+[/-]\d+[/-]\d+ \d+:\d+:\d+\.\d+"
 exp1 = "(sebelumnya|setelahnya|lalu|yang lalu|depan|lagi)"
 regxp1 = "((\d+|(" + numbers + "[-\s]?)+) " + dmy + "s? " + exp1 + ")"
 
-
 regex_region = re.compile(regions, re.IGNORECASE)
+regex_nama = re.compile(names, re.IGNORECASE)
 regex_time_rel = re.compile(rel_day, re.IGNORECASE)
 regex_time_exp1 = re.compile(regxp1, re.IGNORECASE)
 
@@ -178,7 +186,7 @@ def find_time(timex, base_date=now):
 	elif re.match(r'minggu depan', timex, re.IGNORECASE):
 	    date = base_date + timedelta(weeks=1)
 	    timex_val = str(date)
-	return str(date)
+	return date
 
 	# # Month in the previous year.
 	# elif re.match(r'last ' + month, timex, re.IGNORECASE):
@@ -282,17 +290,23 @@ def find_time(timex, base_date=now):
 def tag_region(text):
 	regionx_found = []
 	found = regex_region.findall(text)
-	for a in found:
-		 if len(a) > 1:
-		 	found = a
+	if(found):
+		for a in found:
+			if len(a) > 1:
+				found = a
+				info["daerah"] = found
+				text = re.sub(found, '<daerah>', text)
+	return text
 
-	regionx_found.append(found)
-	# print(regionx_found)
-
-	for regionx in regionx_found:
-		info["daerah"] = regionx
-		text = re.sub(regionx, '<daerah>', text)
-	
+def tag_name(text):
+	names_found = []
+	found = regex_nama.findall(text)
+	if(found):
+		for a in found:
+			if len(a) > 1:
+				found = a
+				info["nama"] = found
+				text = re.sub(found, '<nama>', text)
 	return text
 
 def tag_time(text):
@@ -313,20 +327,38 @@ def tag_time(text):
 		timex_found.append(timex)
 
 	for timex in timex_found:
-		info["waktu"] = find_time(timex)
+		info["waktu"] = str(find_time(timex))
 		text = re.sub(timex, '<waktu>', text)
 
 	return text
 
-
+def tag_entity(pk, text):
+	for category in pk:
+		entities = "("
+		for entity in pk[category]:
+			entities = entities + entity + "|"
+		entities = entities + ")"
+		regex = re.compile(entities, re.IGNORECASE)
+		found = regex.findall(text)
+		if(found):
+			for a in found:
+				if len(a)> 1:
+					if(category in info):
+						info[category] += ", " +a
+					else:
+						info[category] = a
+					text = re.sub(a, "<"+category+">", text)
+	return text
 
 def tag(text):
 	result = tag_region(text)
 	result = tag_time(result)
+	result = tag_name(result)
+	result = tag_entity(pk,result)
 	return result
 
 def main():
-	chat = "Aku mau nonton bioskop di Meruya Selatan besok"
+	chat = "Aku mau pesan dua ayam kambing dan coca-cola"
 	print("input:")
 	print(chat)
 	result = tag(chat)
