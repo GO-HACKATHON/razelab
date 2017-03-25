@@ -9,10 +9,13 @@ from datetime import timedelta
 now = datetime.datetime.now()
 
 def list_to_predefined(filename):
-	output = ""
+	output = "("
 	with open(filename) as f:
 		for line in f:
-			output = output + (line.rstrip()).lower() + "|"
+			output = output + (line.rstrip()) + "|"
+	s = list(output)
+	s[-1] = ")"
+	output = "".join(s)
 	return output
 
 # load pickle file
@@ -21,29 +24,31 @@ pk = pickle.load(entity_file)
 
 # final information consists of region, date, etc
 info = {"nama":"", 
-	"daerah":"", 
+	"lokasi":"", 
 	"waktu":"", 
 	}
-
-
 
 # list of dictionaries
 # daerah
 region_file = "list_region.txt"
-regions = "(" + list_to_predefined(region_file) + ")"
+regions = list_to_predefined(region_file)
 
 # nama orang
 name_file = "list_name.txt"
-names = "(" + list_to_predefined(name_file) + ")"
+names = list_to_predefined(name_file)
+# names = "(\b" + list_to_predefined(name_file) + "\b)"
+# names = "\bmau\b"
+print(names)
 
 numbers = "(^a(?=\s)|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh| \
 		sebelas|dua belas|tiga belas|empat belas|lima belas|enam belas|tujuh belas|delapan belas| \
 		sembilan belas|dua puluh|tiga puluh|empat puluh|lima puluh|enam puluh|tujuh puluh| \
 		delapan puluh|sembilan puluh|seratus|seribu)"
+weekend = "(sabtu|minggu)"
 day = "(senin|selasa|rabu|kamis|jumat|sabtu|minggu)"
 month = "(januari|februari|maret|april|mei|juni|juli|agustus|september| \
           oktober|november|desember)"
-rel_day = "(hari ini|kemarin|besok|malam ini)"
+rel_day = "(hari ini|kemarin|besok|malam ini|sekarang)"
 dmy = "(tahun|hari|minggu|bulan)"
 iso = "\d+[/-]\d+[/-]\d+ \d+:\d+:\d+\.\d+"
 exp1 = "(sebelumnya|setelahnya|lalu|yang lalu|depan|lagi)"
@@ -294,13 +299,15 @@ def tag_region(text):
 		for a in found:
 			if len(a) > 1:
 				found = a
-				info["daerah"] = found
-				text = re.sub(found, '<daerah>', text)
+				info["lokasi"] = found
+				text = re.sub(found, '<lokasi>', text)
 	return text
 
 def tag_name(text):
 	names_found = []
 	found = regex_nama.findall(text)
+	print("nama:")
+	print(found)
 	if(found):
 		for a in found:
 			if len(a) > 1:
@@ -376,7 +383,7 @@ def tag(text):
 	return result
 
 def main():
-	chat = "Aku mau pesan 2 ayam kambing dan empat coca-cola di Kemang sekarang"
+	chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang sekarang"
 	print("input:")
 	print(chat)
 	result = tag(chat)

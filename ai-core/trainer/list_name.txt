@@ -6,7 +6,6 @@ Tri
 Dian
 Sri
 Putri
-Eka
 Sari
 Ayu
 Wahyu
@@ -20,7 +19,6 @@ Andi
 Agung
 Ahmad
 Kurniawan
-I
 Budi
 Adi
 Eko
@@ -44,6 +42,11 @@ Lestari
 Anita
 Muhamad
 Kusuma
+Firman
+Ikhsan
+Dipta
+Barly
+Nadiem
 Rahmawati
 Fitria
 Retno
@@ -98,6 +101,3 @@ Anggraini
 Wulan
 Saputra
 Yuni
-Firman
-Ikhsan
-Dipta
