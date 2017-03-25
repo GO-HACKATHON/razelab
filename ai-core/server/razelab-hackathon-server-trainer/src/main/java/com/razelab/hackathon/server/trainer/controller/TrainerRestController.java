@@ -29,14 +29,13 @@ public class TrainerRestController {
 	@RequestMapping(path = "/entity", method = RequestMethod.POST)
 	public void writeFile(@RequestBody EntityRequest request) throws IOException {
 		// TODO write JSON file
-		//String subEntity = "tempe \ntahu \nayam";
 		StringBuilder sb = new StringBuilder();
 		for(int i=0;i<request.getMember().size();i++){
 			sb.append(request.getMember().get(i));
 			sb.append("\n");
 		}
 
-		//FileWriter fw = new FileWriter("../../../trainer/db/entity/"+entity+".rz");
+		//FileWriter fw = new FileWriter("../../../trainer/db/entity/"+request.getEntity()+".rz");
 		FileWriter fw = new FileWriter("E:\\Projects\\razelab\\gohackathon\\razelab\\ai-core\\trainer\\db\\entity\\"+request.getEntity()+".rz");
 		fw.write(sb.toString());
 		fw.close();
