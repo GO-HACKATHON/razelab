@@ -36,14 +36,21 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<dependency>
+			<!-- jsoup HTML parser library @ http://jsoup.org/ -->
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.10.2</version>
+		</dependency>
+		
 		<!-- LINE BOT dependency -->
+		
 		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-spring-boot -->
 		<dependency>
 		    <groupId>com.linecorp.bot</groupId>
 		    <artifactId>line-bot-spring-boot</artifactId>
 		    <version>1.6.0</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-api-client -->
 		<dependency>
 		    <groupId>com.linecorp.bot</groupId>
@@ -58,12 +65,8 @@
 		    <version>1.6.0</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-spring-boot -->
-		<dependency>
-		    <groupId>com.linecorp.bot</groupId>
-		    <artifactId>line-bot-spring-boot</artifactId>
-		    <version>1.6.0</version>
-		</dependency>
+		
+		
 	</dependencies>
 
 	<build>
