@@ -1,2 +1,3 @@
 .gitignore
 ./ai-core/trainer/db
+*.pyc

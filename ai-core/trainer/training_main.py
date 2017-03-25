@@ -7,4 +7,4 @@ def main(argv):
     tc.update_train_db(input_query)
 
 if __name__ == "__main__":
-   main(sys.argv[1:])
+    main(sys.argv[1:])
