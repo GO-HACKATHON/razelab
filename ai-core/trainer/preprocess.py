@@ -1,18 +1,28 @@
+############
+# preprocess.py
+# Description:
+#	This code is for preprocessing input text and parse
+############
+
 import re
 import string
 import os
 import sys
 import datetime
 import pickle
+import json
 from datetime import timedelta
 
 now = datetime.datetime.now()
 
 def list_to_predefined(filename):
-	output = ""
+	output = "("
 	with open(filename) as f:
 		for line in f:
-			output = output + (line.rstrip()).lower() + "|"
+			output = output + (line.rstrip()) + "|"
+	s = list(output)
+	s[-1] = ")"
+	output = "".join(s)
 	return output
 
 # load pickle file
@@ -21,29 +31,31 @@ pk = pickle.load(entity_file)
 
 # final information consists of region, date, etc
 info = {"nama":"", 
-	"daerah":"", 
+	"lokasi":"", 
 	"waktu":"", 
 	}
-
-
 
 # list of dictionaries
 # daerah
 region_file = "list_region.txt"
-regions = "(" + list_to_predefined(region_file) + ")"
+regions = list_to_predefined(region_file)
 
 # nama orang
 name_file = "list_name.txt"
-names = "(" + list_to_predefined(name_file) + ")"
+names = list_to_predefined(name_file)
+# names = "(\b" + list_to_predefined(name_file) + "\b)"
+# names = "\bmau\b"
+# print(names)
 
 numbers = "(^a(?=\s)|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh| \
 		sebelas|dua belas|tiga belas|empat belas|lima belas|enam belas|tujuh belas|delapan belas| \
 		sembilan belas|dua puluh|tiga puluh|empat puluh|lima puluh|enam puluh|tujuh puluh| \
 		delapan puluh|sembilan puluh|seratus|seribu)"
+weekend = "(sabtu|minggu)"
 day = "(senin|selasa|rabu|kamis|jumat|sabtu|minggu)"
 month = "(januari|februari|maret|april|mei|juni|juli|agustus|september| \
           oktober|november|desember)"
-rel_day = "(hari ini|kemarin|besok|malam ini)"
+rel_day = "(hari ini|kemarin|besok|malam ini|sekarang)"
 dmy = "(tahun|hari|minggu|bulan)"
 iso = "\d+[/-]\d+[/-]\d+ \d+:\d+:\d+\.\d+"
 exp1 = "(sebelumnya|setelahnya|lalu|yang lalu|depan|lagi)"
@@ -53,16 +65,17 @@ regex_region = re.compile(regions, re.IGNORECASE)
 regex_nama = re.compile(names, re.IGNORECASE)
 regex_time_rel = re.compile(rel_day, re.IGNORECASE)
 regex_time_exp1 = re.compile(regxp1, re.IGNORECASE)
+regex_time_day = re.compile(day, re.IGNORECASE)
 
 
 hashweekdays = {
-    'Senin': 0,
-    'Selasa': 1,
-    'Rabu': 2,
+    'senin': 0,
+    'selasa': 1,
+    'rabu': 2,
     'kamis': 3,
-    'Jumat': 4,
-    'Sabtu': 5,
-    'Minggu': 6}
+    'jumat': 4,
+    'sabtu': 5,
+    'minggu': 6}
 
 # Hash function for months to simplify the grounding task.
 # [Jan..Dec] -> [1..12]
@@ -144,6 +157,7 @@ def hashnum(number):
 def find_time(timex, base_date=now):
 	# print("timex:" + timex)
 	date = base_date
+	today = base_date.weekday()
 	timex_val = 'UNKNOWN' # Default value
 	timex_ori = timex   # Backup original timex for later substitution
 	# If numbers are given in words, hash them into corresponding numbers.
@@ -172,12 +186,18 @@ def find_time(timex, base_date=now):
 	elif re.match(r'malam ini|hari ini|sekarang', timex, re.IGNORECASE):
 	    timex_val = str(base_date)
 	    date = base_date
+	# elif re.match()
 	elif re.match(r'kemarin', timex, re.IGNORECASE):
 		date = base_date + timedelta(days=-1)
 		timex_val = str(date)
 	elif re.match(r'besok', timex, re.IGNORECASE):
 		date = base_date + timedelta(days=+1)
 		timex_val = str(date)
+	elif re.match(day, timex, re.IGNORECASE):
+		day_no = hashweekdays[timex]
+		if(day_no < today):
+			day_no += 7
+		date = base_date + timedelta(days=day_no - today)
 
 	# Last, this, next week.
 	elif re.match(r'minggu lalu', timex, re.IGNORECASE):
@@ -188,105 +208,6 @@ def find_time(timex, base_date=now):
 	    timex_val = str(date)
 	return date
 
-	# # Month in the previous year.
-	# elif re.match(r'last ' + month, timex, re.IGNORECASE):
-	#     month = hashmonths[timex.split()[1]]
-	#     timex_val = str(base_date.year - 1) + '-' + str(month)
-
-	# # Month in the current year.
-	# elif re.match(r'this ' + month, timex, re.IGNORECASE):
-	#     month = hashmonths[timex.split()[1]]  
-	#     timex_val = str(base_date.year) + '-' + str(month)
-
-	# # Month in the following year.
-	# elif re.match(r'next ' + month, timex, re.IGNORECASE):
-	#     month = hashmonths[timex.split()[1]]
-	#     timex_val = str(base_date.year + 1) + '-' + str(month)
-	# elif re.match(r'last month', timex, re.IGNORECASE):
-
-	#     # Handles the year boundary.
-	#     if base_date.month == 1:
-	#         timex_val = str(base_date.year - 1) + '-' + '12'
-	#     else:
-	#         timex_val = str(base_date.year) + '-' + str(base_date.month - 1)
-	# elif re.match(r'this month', timex, re.IGNORECASE):
-	#         timex_val = str(base_date.year) + '-' + str(base_date.month)
-	# elif re.match(r'next month', timex, re.IGNORECASE):
-
-	#     # Handles the year boundary.
-	#     if base_date.month == 12:
-	#         timex_val = str(base_date.year + 1) + '-' + '1'
-	#     else:
-	#         timex_val = str(base_date.year) + '-' + str(base_date.month + 1)
-	# elif re.match(r'last year', timex, re.IGNORECASE):
-	#     timex_val = str(base_date.year - 1)
-	# elif re.match(r'this year', timex, re.IGNORECASE):
-	#     timex_val = str(base_date.year)
-	# elif re.match(r'next year', timex, re.IGNORECASE):
-	#     timex_val = str(base_date.year + 1)
-	# elif re.match(r'\d+ days? (ago|earlier|before)', timex, re.IGNORECASE):
-
-	#     # Calculate the offset by taking '\d+' part from the timex.
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date + RelativeDateTime(days=-offset))
-	# elif re.match(r'\d+ days? (later|after)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date + RelativeDateTime(days=+offset))
-	# elif re.match(r'\d+ weeks? (ago|earlier|before)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     year = (base_date + RelativeDateTime(weeks=-offset)).year
-	#     week = (base_date + \
-	#                     RelativeDateTime(weeks=-offset)).iso_week[1]
-	#     timex_val = str(year) + 'W' + str(week)
-	# elif re.match(r'\d+ weeks? (later|after)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     year = (base_date + RelativeDateTime(weeks=+offset)).year
-	#     week = (base_date + RelativeDateTime(weeks=+offset)).iso_week[1]
-	#     timex_val = str(year) + 'W' + str(week)
-	# elif re.match(r'\d+ months? (ago|earlier|before)', timex, re.IGNORECASE):
-	#     extra = 0
-	#     offset = int(re.split(r'\s', timex)[0])
-
-	#     # Checks if subtracting the remainder of (offset / 12) to the base month
-	#     # crosses the year boundary.
-	#     if (base_date.month - offset % 12) < 1:
-	#         extra = 1
-
-	#     # Calculate new values for the year and the month.
-	#     year = str(base_date.year - offset // 12 - extra)
-	#     month = str((base_date.month - offset % 12) % 12)
-
-	#     # Fix for the special case.
-	#     if month == '0':
-	#         month = '12'
-	#     timex_val = year + '-' + month
-	# elif re.match(r'\d+ months? (later|after)', timex, re.IGNORECASE):
-	#     extra = 0
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     if (base_date.month + offset % 12) > 12:
-	#         extra = 1
-	#     year = str(base_date.year + offset // 12 + extra)
-	#     month = str((base_date.month + offset % 12) % 12)
-	#     if month == '0':
-	#         month = '12'
-	#     timex_val = year + '-' + month
-	# elif re.match(r'\d+ years? (ago|earlier|before)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date.year - offset)
-	# elif re.match(r'\d+ years? (later|after)', timex, re.IGNORECASE):
-	#     offset = int(re.split(r'\s', timex)[0])
-	#     timex_val = str(base_date.year + offset)
-
-	# # Remove 'time' from timex_val.
-	# # For example, If timex_val = 2000-02-20 12:23:34.45, then
-	# # timex_val = 2000-02-20
-	# timex_val = re.sub(r'\s.*', '', timex_val)
-
-	# # Substitute tag+timex in the text with grounded tag+timex.
-	# tagged_text = re.sub('<TIMEX2>' + timex_ori + '</TIMEX2>', '<TIMEX2 val=\"' \
-	#     + timex_val + '\">' + timex_ori + '</TIMEX2>', tagged_text)
-
-
 def tag_region(text):
 	regionx_found = []
 	found = regex_region.findall(text)
@@ -294,13 +215,15 @@ def tag_region(text):
 		for a in found:
 			if len(a) > 1:
 				found = a
-				info["daerah"] = found
-				text = re.sub(found, '<daerah>', text)
+				info["lokasi"] = found
+				text = re.sub(found, '<lokasi>', text)
 	return text
 
 def tag_name(text):
 	names_found = []
 	found = regex_nama.findall(text)
+	# print("nama:")
+	# print(found)
 	if(found):
 		for a in found:
 			if len(a) > 1:
@@ -326,6 +249,10 @@ def tag_time(text):
 	for timex in found:
 		timex_found.append(timex)
 
+	found = regex_time_day.findall(text)
+	for timex in found:
+		timex_found.append(timex)
+
 	for timex in timex_found:
 		info["waktu"] = str(find_time(timex))
 		text = re.sub(timex, '<waktu>', text)
@@ -343,8 +270,8 @@ def tag_entity(pk, text):
 		entities_counts = "((\d+|(" + numbers + "[-\s]?)+) " + entities + ")"
 		regex_ent_counts = re.compile(entities_counts, re.IGNORECASE)
 		found = regex_ent_counts.findall(text)
-		print(category)
-		print(found)
+		# print(category)
+		# print(found)
 		if(found):
 			for a in found:
 				if len(a)> 1:
@@ -353,7 +280,7 @@ def tag_entity(pk, text):
 					else:
 						info[category] = a[0]
 					text = re.sub(a[0], "<"+category+">", text)
-		print(info)
+		# print(info)
 		#without counting
 		regex_ent = re.compile(entities, re.IGNORECASE)
 		found = regex_ent.findall(text)
@@ -368,6 +295,8 @@ def tag_entity(pk, text):
 
 	return text
 
+# Input: user chat in string type
+# Return: Output for training in deep learning
 def tag(text):
 	result = tag_region(text)
 	result = tag_time(result)
@@ -376,14 +305,23 @@ def tag(text):
 	return result
 
 def main():
-	chat = "Aku mau pesan 2 ayam kambing dan empat coca-cola di Kemang sekarang"
-	print("input:")
-	print(chat)
-	result = tag(chat)
-	print("result: ")
+	# chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang hari kamis"
+	input_filename="usage/inputChat.txt"
+	input_chat = ""
+	with open(input_filename) as f:
+		input_chat = f.read()
+
+
+	result = tag(input_chat)
 	print(result)
-	print("info")
-	print(info)
+
+	output = json.dumps(info)
+	output_file = "usage/outputChat.txt"
+	f = open(output_file, 'w')
+	f.write(output)
+	
+	print(output)
+
 
 
 if __name__ == '__main__':
