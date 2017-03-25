@@ -17,6 +17,8 @@ from keras.utils import np_utils
 
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
+import preprocess
+
 def train_model(train_x, train_y, intent_pool_size, max_string_length):
     """Trains LSTM net using preprocessed training data
 
@@ -39,7 +41,7 @@ def train_model(train_x, train_y, intent_pool_size, max_string_length):
     model_cnn.add(LSTM(100))
     model_cnn.add(Dense(intent_pool_size+1, activation='sigmoid'))
     model_cnn.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    print(model_cnn.summary())
+    #print(model_cnn.summary())
     model_cnn.fit(train_x, train_y, nb_epoch=50, batch_size=3)
 
     return model_cnn
@@ -64,7 +66,7 @@ def train_model_mlp(train_x, train_y, intent_pool_size, max_string_length):
     model_mlp.add(Dropout(0.2))
     model_mlp.add(Dense(intent_pool_size+1, activation='sigmoid'))
     model_mlp.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-    print(model_mlp.summary())
+    #print(model_mlp.summary())
     model_mlp.fit(train_x, train_y, nb_epoch=50, batch_size=3)
 
     return model_mlp
@@ -192,7 +194,8 @@ def stem_sequence_train_db(train_x, m_tokenizer, max_string_length):
     m_stemmer = stem_factory.create_stemmer()
 
     for idx, item in enumerate(train_x):
-        words = item.split()
+        item_proc = preprocess.tag(item)
+        words = item_proc.split()
         for idy, word in enumerate(words):
             if not word[0] == '<':
                  words[idy] = m_stemmer.stem(word)

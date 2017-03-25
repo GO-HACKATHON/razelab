@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 import sys, getopt
 import json
+import pickle
 import training_core as tc
 
 def main(argv):
@@ -18,7 +19,8 @@ def main(argv):
     with open("model/model_structure.json", "w") as json_file:
         json_file.write(model_json)
     model.save_weights("model/model_weights.h5")
-
+    pickle.dump(m_tokenizer, open("model/tokenizer.pkl", "wb"))
+    pickle.dump(intent_dic,open("model/intent_dict.pkl", "wb"))
     #test_string = ["Tunjukkin trailernya dong"]
     #test_sequence = tc.stem_sequence_train_db(test_string, m_tokenizer, max_string_length)
     #result = model.predict(test_sequence)
