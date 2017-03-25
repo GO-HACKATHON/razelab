@@ -12,5 +12,4 @@ public class GohackLineBotApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }

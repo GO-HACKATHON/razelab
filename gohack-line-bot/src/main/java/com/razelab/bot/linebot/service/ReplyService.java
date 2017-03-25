@@ -12,6 +12,7 @@ import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.message.template.ConfirmTemplate;
+import com.razelab.bot.linebot.model.AiReply;
 
 @Service("replyService")
 public class ReplyService {
@@ -19,7 +20,7 @@ public class ReplyService {
 	private LineMessagingClient lineMessagingClient;
 
 	public void compose(MessageEvent<TextMessageContent> event, AiReply reply) {
-		String replyContext = reply.getContext();
+		String replyContext = reply.getIntent();
 		String replyMessage = reply.getMessage();
 		
 		TemplateMessage template = confirmationProfileReply("nomer telepon", "092734704");

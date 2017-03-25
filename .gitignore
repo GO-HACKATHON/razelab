@@ -8,3 +8,4 @@ db/
 *.rz
 *jar
 *inputChat.txt
+*outputChat.txt
