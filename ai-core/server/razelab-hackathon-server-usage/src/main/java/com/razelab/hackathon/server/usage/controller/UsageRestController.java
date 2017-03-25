@@ -34,7 +34,7 @@ public class UsageRestController {
 		fw.write(request.getSentence());
 		fw.close();
 
-		UsageUtil.runTerminal("cd ../../../trainer");
+		//UsageUtil.runTerminal("cd ../../../trainer");
 		return UsageUtil.runTerminal("python preprocess.py");
 	}
 
