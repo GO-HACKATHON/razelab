@@ -7,3 +7,4 @@ target/
 *.rz
 *jar
 *inputChat.txt
+*outputChat.txt
