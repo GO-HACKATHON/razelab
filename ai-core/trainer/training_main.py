@@ -2,8 +2,6 @@
 import sys, getopt
 import json
 import training_core as tc
-from keras.preprocessing import sequence
-from keras.preprocessing.text import Tokenizer
 
 def main(argv):
     max_string_length = 50
