@@ -2,7 +2,6 @@ from os import listdir
 from os.path import basename
 from os.path import isfile
 from os.path import splitext
-
 import pickle
 
 from keras.models import Sequential
@@ -19,8 +18,16 @@ from keras.utils import np_utils
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
 def train_model(train_x, train_y, intent_pool_size, max_string_length):
-    """Trains LSTM net using updated datasets
+    """Trains LSTM net using preprocessed training data
 
+    Parameters:
+        --train_x: list of training sets in index form
+        --train_y: list of training labels in one-hot matrix
+        --intent_pool_size: number of intent classes
+        --max_string_length: maximum padded string input length
+
+    Returns:
+        --model_cnn: keras sequential model object
     """
     embed_vec_length = 32
     dict_size = 30000
@@ -38,6 +45,18 @@ def train_model(train_x, train_y, intent_pool_size, max_string_length):
     return model_cnn
 
 def train_model_mlp(train_x, train_y, intent_pool_size, max_string_length):
+    """Trains MLP net using preprocessed training data
+
+    Parameters:
+        --train_x: list of training sets in index form
+        --train_y: list of training labels in one-hot matrix
+        --intent_pool_size: number of intent classes
+        --max_string_length: maximum padded string input length
+
+    Returns:
+        --model_mlp: keras sequential model object
+    """
+
     model_mlp = Sequential()
     model_mlp.add(Dense(1000, input_shape=(max_string_length,), activation='relu'))
     model_mlp.add(Dropout(0.2))
@@ -54,9 +73,10 @@ def create_train_db():
     """Creates training array from updated intent db files
 
     Return:
-        -train_x: list of raw training strings
-        _train_y: list of intent classes
-
+        --train_x: list of raw training strings
+        --train_y: list of intent classes
+        --intent_class: dictionary of intent classes
+        --parent_dict: dictionary of parent intents
     """
 
     intent_dir = "db/intent"
@@ -89,20 +109,33 @@ def create_train_db():
 
     return train_x, train_y, intent_class, parent_dict
 
-def update_parent_dict(string, dic):
-    out_dic = dic
+def update_parent_dict(file_string, parent_dict):
+    """Parse parent intent from filename
 
-    head, tail = splitext(string)
+    Parameters:
+        --file_string: filename string without file extension
+        --parent_dict: parent dictionary object
+
+    Returns:
+        --out_dict: updated parent dictionary object
+
+    Note: filenames are in granparents.parent.child.rz notation
+    """
+    out_dict = parent_dict
+
+    head, tail = splitext(file_string)
     if tail == "":
-        out_dic[head] = "None"
+        out_dict[head] = "None"
     else:
-        out_dic[tail[1:]] = head
+        out_dict[tail[1:]] = head
 
-    return out_dic
+    return out_dict
 
 def create_train_vocab():
-    """Creates custom training vocab for preprocessing
+    """Compile user-defined entities for preprocessing and dictionary update
 
+    Returns:
+        --entity_dict: Entity dictionary with structure [key: list of members]
     """
 
     entity_dir = "db/entity"
@@ -120,6 +153,14 @@ def create_train_vocab():
 
 
 def update_fetch_dict(entity_dict):
+    """Update dictionary with user-defined entities and create tokenizer
+
+    Parameters:
+        --entity_dict: Dictionary of user-defined entities [key: list of members]
+
+    Returns:
+        --m_tokenizer: keras tokenizer updated with updated dictionary
+    """
 
     corpus = pickle.load(open( "db/dict/dict.pkl", "rb" ))
     for key in entity_dict:
@@ -130,15 +171,23 @@ def update_fetch_dict(entity_dict):
     corpus.append("<lokasi>")
     corpus.append("<nama>")
 
-    #additional vocab
-
     m_tokenizer = Tokenizer()
     m_tokenizer.fit_on_texts(corpus)
 
     return m_tokenizer
 
-
 def stem_sequence_train_db(train_x, m_tokenizer, max_string_length):
+    """Stem strings in training db, produce equal-length sequences
+        (list of list of dictionary indexes) for training
+
+    Parameters:
+        --train_x: training db (list of strings)
+        --m_tokenizer: tokenizer trained on updated dictionary
+        --max_string_length: max length of sequence for training
+
+    Returns:
+        --sequence_x: list of stemmed and padded sequences for training
+    """
     stem_factory = StemmerFactory()
     m_stemmer = stem_factory.create_stemmer()
 
