@@ -1,0 +1,60 @@
+<div th:fragment="cssLink">
+	<link href="../../vendor/bootstrap/css/bootstrap.min.css"
+		th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"
+		media="screen"></link>
+	<link href="../static/freelancer.min.css"
+		th:href="@{/css/freelancer.min.css}" rel="stylesheet" media="screen"></link>
+
+	<!-- Custom Fonts -->
+	<link th:href="@{/vendor/font-awesome/css/font-awesome.min.css}"
+		rel="stylesheet" type="text/css"></link>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+		rel="stylesheet" type="text/css"></link>
+	<link
+		href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
+		rel="stylesheet" type="text/css"></link>
+</div>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-custom"
+	th:fragment="header">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+				aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Razelab Dev</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div th:object="${command}" class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li><a th:href="@{/training/entity}">Entity</a></li>
+				<li ><a th:href="@{/training/intent}">Intent</a></li>
+
+
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Login</a></li>
+				<li sec:authorize="!isAuthenticated()"><a
+					th:href="@{/user/register}">Register</a></li>
+				<!-- <li sec:authorize="isAuthenticated()" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" role="button"
+					aria-haspopup="true" aria-expanded="false">Profile <span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{/user/profile}">My Profile</a></li>
+						<li><a th:href="@{/user/changePassword}">Change Password</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a th:href="@{/logout}">Logout</a></li>
+					</ul></li> -->
+
+			</ul>
+		</div>
+	</div>
+</div>
