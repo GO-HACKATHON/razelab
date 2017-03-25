@@ -58,6 +58,11 @@ public class TrainerRestController {
 			//output.append(request.getSentence());
 		}
 		output.close();
+		//FileWriter fw = new FileWriter("../../../trainer/db/entity/" + request.getEntity() + ".rz");
+		// FileWriter fw = new
+		// FileWriter("E:\\Projects\\razelab\\gohackathon\\razelab\\ai-core\\trainer\\db\\entity\\"+request.getEntity()+".rz");
+		//fw.write(sb.toString());
+		//fw.close();
 
 	}
 
