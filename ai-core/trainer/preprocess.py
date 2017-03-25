@@ -1,3 +1,9 @@
+############
+# preprocess.py
+# Description:
+#	This code is for preprocessing input text and parse
+############
+
 import re
 import string
 import os
@@ -289,6 +295,8 @@ def tag_entity(pk, text):
 
 	return text
 
+# Input: user chat in string type
+# Return: Output for training in deep learning
 def tag(text):
 	result = tag_region(text)
 	result = tag_time(result)
@@ -303,13 +311,15 @@ def main():
 	with open(input_filename) as f:
 		input_chat = f.read()
 
-	# print("input:")
-	# print(input_chat)
+
 	result = tag(input_chat)
-	# print("result: ")
-	# print(result)
-	# print("info")
+	print(result)
+
 	output = json.dumps(info)
+	output_file = "usage/outputChat.txt"
+	f = open(output_file, 'w')
+	f.write(output)
+	
 	print(output)
 
 

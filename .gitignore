@@ -5,3 +5,5 @@ target/
 
 # Local db files
 *.rz
+*jar
+*inputChat.txt
