@@ -2,8 +2,10 @@
 __pycache__/
 
 target/
+db/
 
 # Local db files
 *.rz
 *jar
 *inputChat.txt
+*outputChat.txt

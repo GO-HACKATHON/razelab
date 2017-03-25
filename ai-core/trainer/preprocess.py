@@ -26,7 +26,7 @@ def list_to_predefined(filename):
 	return output
 
 # load pickle file
-entity_file = open("entity.pkl","rb")
+entity_file = open("db/entity.pkl","rb")
 pk = pickle.load(entity_file)
 
 # final information consists of region, date, etc
@@ -37,11 +37,11 @@ info = {"nama":"",
 
 # list of dictionaries
 # daerah
-region_file = "list_region.txt"
+region_file = "db/list_region.txt"
 regions = list_to_predefined(region_file)
 
 # nama orang
-name_file = "list_name.txt"
+name_file = "db/list_name.txt"
 names = list_to_predefined(name_file)
 # names = "(\b" + list_to_predefined(name_file) + "\b)"
 # names = "\bmau\b"
@@ -55,7 +55,7 @@ weekend = "(sabtu|minggu)"
 day = "(senin|selasa|rabu|kamis|jumat|sabtu|minggu)"
 month = "(januari|februari|maret|april|mei|juni|juli|agustus|september| \
           oktober|november|desember)"
-rel_day = "(hari ini|kemarin|besok|malam ini|sekarang)"
+rel_day = "(hari ini|kemarin|besok|malam ini|sekarang|lusa|minggu depan)"
 dmy = "(tahun|hari|minggu|bulan)"
 iso = "\d+[/-]\d+[/-]\d+ \d+:\d+:\d+\.\d+"
 exp1 = "(sebelumnya|setelahnya|lalu|yang lalu|depan|lagi)"
@@ -190,6 +190,12 @@ def find_time(timex, base_date=now):
 	elif re.match(r'kemarin', timex, re.IGNORECASE):
 		date = base_date + timedelta(days=-1)
 		timex_val = str(date)
+	elif re.match(r'lusa', timex, re.IGNORECASE):
+		date = base_date + timedelta(days=2)
+		timex_val = str(date)
+	elif re.match(r'minggu depan', timex, re.IGNORECASE):
+		date = base_date + timedelta(days=7)
+		timex_val = str(date)
 	elif re.match(r'besok', timex, re.IGNORECASE):
 		date = base_date + timedelta(days=+1)
 		timex_val = str(date)
@@ -244,19 +250,18 @@ def tag_time(text):
 
 	# today, tomorrow, etc
 	found = regex_time_rel.findall(text)
-	# print("time")
-	# print(found)
 	for timex in found:
 		timex_found.append(timex)
+		text = re.sub(timex, '<waktu>', text)
 
 	found = regex_time_day.findall(text)
 	for timex in found:
 		timex_found.append(timex)
+		text = re.sub(timex, '<waktu>', text)
 
 	for timex in timex_found:
 		info["waktu"] = str(find_time(timex))
-		text = re.sub(timex, '<waktu>', text)
-
+		
 	return text
 
 def tag_entity(pk, text):
