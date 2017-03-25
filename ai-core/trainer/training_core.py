@@ -1,3 +1,5 @@
+from os import listdir
+
 import numpy as np
 from keras.datasets import imdb
 from keras.models import Sequential
@@ -17,9 +19,11 @@ def training(trainX, trainY, testX, testY):
     print("Training Cuy")
 
 
-def update_train_db(inputFile):
-    """Update training database
+def create_train_db():
+    """Creates training array from updated db files
 
     """
 
-    
+    for filename in os.listdir("db/intent"):
+        if filename.endswith(".rz"):
+            print(filename)
