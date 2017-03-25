@@ -35,8 +35,8 @@ public class TrainerRestController {
 			sb.append("\n");
 		}
 
-		//FileWriter fw = new FileWriter("../../../trainer/db/entity/"+request.getEntity()+".rz");
-		FileWriter fw = new FileWriter("E:\\Projects\\razelab\\gohackathon\\razelab\\ai-core\\trainer\\db\\entity\\"+request.getEntity()+".rz");
+		FileWriter fw = new FileWriter("../../../trainer/db/entity/"+request.getEntity()+".rz");
+		//FileWriter fw = new FileWriter("E:\\Projects\\razelab\\gohackathon\\razelab\\ai-core\\trainer\\db\\entity\\"+request.getEntity()+".rz");
 		fw.write(sb.toString());
 		fw.close();
 
