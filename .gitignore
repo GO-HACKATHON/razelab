@@ -1,3 +1,5 @@
-.gitignore
-./ai-core/trainer/db
-*.pyc
+# Python
+__pycache__/
+
+# Local db files
+*.rz
