@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.razelab.hackathon.server</groupId>
-	<artifactId>usage</artifactId>
+	<groupId>com.razelab.bot</groupId>
+	<artifactId>linebot</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>razelab-hackathon-server-usage</name>
+	<name>gohack-line-bot</name>
 	<description>Usage </description>
 
 	<parent>
@@ -27,7 +27,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -36,15 +36,33 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- LINE BOT dependency -->
+		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-spring-boot -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+		    <groupId>com.linecorp.bot</groupId>
+		    <artifactId>line-bot-spring-boot</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-api-client -->
+		<dependency>
+		    <groupId>com.linecorp.bot</groupId>
+		    <artifactId>line-bot-api-client</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-model -->
+		<dependency>
+		    <groupId>com.linecorp.bot</groupId>
+		    <artifactId>line-bot-model</artifactId>
+		    <version>1.6.0</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-spring-boot -->
 		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20160810</version>
+		    <groupId>com.linecorp.bot</groupId>
+		    <artifactId>line-bot-spring-boot</artifactId>
+		    <version>1.6.0</version>
 		</dependency>
 	</dependencies>
 

@@ -1,9 +1,7 @@
 package com.razelab.hackathon.server.usage.controller;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,21 +19,12 @@ public class UsageRestController {
 
 	@RequestMapping(path = "/chatInput", method = RequestMethod.POST)
 	public String chat(@RequestBody ChatInput request) throws IOException {
-		String filename = "E:\\Projects\\razelab\\gohackathon\\razelab\\ai-core\\trainer\\usage\\inputChat.txt";
-		
-		//String filename = "../../../trainer/usage/inputChat.txt";
-		
-		/*
-		 * Writer output; output = new BufferedWriter(new FileWriter(filename,
-		 * false)); output.append(request.getSentence()); output.close();
-		 */
-
+		String filename = "usage/inputChat.txt";
 		FileWriter fw = new FileWriter(filename);
 		fw.write(request.getSentence());
 		fw.close();
-
-		//UsageUtil.runTerminal("cd ../../../trainer");
-		return UsageUtil.runTerminal("python preprocess.py");
+		UsageUtil.runTerminal("python preprocess.py");
+		return UsageUtil.readFile("usage/outputChat.txt");
 	}
 
 }

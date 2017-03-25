@@ -1,6 +1,7 @@
 package com.razelab.hackathon.server.usage.util;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -28,5 +29,22 @@ public class UsageUtil {
 		}
 
 		return terminalError;
+	}
+	
+	public static String readFile(String filename) {
+	    String result = "";
+	    try {
+	        BufferedReader br = new BufferedReader(new FileReader(filename));
+	        StringBuilder sb = new StringBuilder();
+	        String line = br.readLine();
+	        while (line != null) {
+	            sb.append(line);
+	            line = br.readLine();
+	        }
+	        result = sb.toString();
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	    return result;
 	}
 }
