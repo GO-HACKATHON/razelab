@@ -39,7 +39,7 @@ name_file = "list_name.txt"
 names = list_to_predefined(name_file)
 # names = "(\b" + list_to_predefined(name_file) + "\b)"
 # names = "\bmau\b"
-print(names)
+# print(names)
 
 numbers = "(^a(?=\s)|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh| \
 		sebelas|dua belas|tiga belas|empat belas|lima belas|enam belas|tujuh belas|delapan belas| \
@@ -216,8 +216,8 @@ def tag_region(text):
 def tag_name(text):
 	names_found = []
 	found = regex_nama.findall(text)
-	print("nama:")
-	print(found)
+	# print("nama:")
+	# print(found)
 	if(found):
 		for a in found:
 			if len(a) > 1:
@@ -264,8 +264,8 @@ def tag_entity(pk, text):
 		entities_counts = "((\d+|(" + numbers + "[-\s]?)+) " + entities + ")"
 		regex_ent_counts = re.compile(entities_counts, re.IGNORECASE)
 		found = regex_ent_counts.findall(text)
-		print(category)
-		print(found)
+		# print(category)
+		# print(found)
 		if(found):
 			for a in found:
 				if len(a)> 1:
@@ -274,7 +274,7 @@ def tag_entity(pk, text):
 					else:
 						info[category] = a[0]
 					text = re.sub(a[0], "<"+category+">", text)
-		print(info)
+		# print(info)
 		#without counting
 		regex_ent = re.compile(entities, re.IGNORECASE)
 		found = regex_ent.findall(text)
@@ -297,18 +297,20 @@ def tag(text):
 	return result
 
 def main():
-	chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang hari kamis"
+	# chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang hari kamis"
 	input_filename="usage/inputChat.txt"
 	input_chat = ""
 	with open(input_filename) as f:
 		input_chat = f.read()
-	print("input:")
-	print(chat)
-	result = tag(chat)
-	print("result: ")
-	print(result)
-	print("info")
-	print(info)
+
+	# print("input:")
+	# print(input_chat)
+	result = tag(input_chat)
+	# print("result: ")
+	# print(result)
+	# print("info")
+	output = json.dumps(info)
+	print(output)
 
 
 
