@@ -26,7 +26,7 @@ def list_to_predefined(filename):
 	return output
 
 # load pickle file
-entity_file = open("entity.pkl","rb")
+entity_file = open("db/entity.pkl","rb")
 pk = pickle.load(entity_file)
 
 # final information consists of region, date, etc
@@ -37,11 +37,11 @@ info = {"nama":"",
 
 # list of dictionaries
 # daerah
-region_file = "list_region.txt"
+region_file = "db/list_region.txt"
 regions = list_to_predefined(region_file)
 
 # nama orang
-name_file = "list_name.txt"
+name_file = "db/list_name.txt"
 names = list_to_predefined(name_file)
 # names = "(\b" + list_to_predefined(name_file) + "\b)"
 # names = "\bmau\b"
