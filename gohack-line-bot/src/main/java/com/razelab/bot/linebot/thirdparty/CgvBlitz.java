@@ -38,7 +38,7 @@ public class CgvBlitz {
                 System.out.println(synopsis);
                 System.out.println(thumbnail.attr("abs:src"));
                 Elements trailer = movieDoc.select("div.trailer-section iframe");
-                String trailerLink = thumbnail.attr("abs:src");
+                String trailerLink = trailer.attr("abs:src");
                 movieList.add(  new LineMovie(thumbnail.toString(),movieDoc.select("div.movie-info-title").text(), synopsis.toString(), trailerLink));
               
 
@@ -47,6 +47,6 @@ public class CgvBlitz {
         } catch (IOException e) {
             e.printStackTrace();
         }
-		return null;
+		return movieList;
 	}
 }
