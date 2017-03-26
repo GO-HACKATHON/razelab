@@ -53,6 +53,7 @@ public class LineBotRestController {
 			AiReply reply = null;
 			switch (0) {
 			case 0:{
+				
 				//Rekomendasi Film
 				CarouselTemplate movies = replyService.composeCarouselTemplate(CgvBlitz.getMovieList());
 				replyService.composeCarouselReply(event, movies);
@@ -64,7 +65,7 @@ public class LineBotRestController {
 				//Makanan
 				break;
 			default:
-				reply = new AiReply("film", "none", "Hi " + profileName + ", ini adalah demo untuk Gojek Hackathon","none", "none");
+				reply = new AiReply("none", "none", "Hi " + profileName + ", ini adalah demo untuk Gojek Hackathon","none", "none");
 				replyService.composeTextReply(event, reply);
 
 				break;
