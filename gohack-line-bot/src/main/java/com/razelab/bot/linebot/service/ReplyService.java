@@ -82,18 +82,6 @@ public class ReplyService {
                         				lineMovie.get(3).getMovieTrailer()),
                           new URIAction("Beli tiket",
                                              "https://www.cgv.id")
-                        )),
-                        new CarouselColumn(lineMovie.get(4).getMovieThumbnail(), lineMovie.get(4).getMovieTitle(), CGV_CINEMA, Arrays.asList(
-                                new URIAction("Tonton Trailer",
-                                		lineMovie.get(4).getMovieTrailer()),
-                                new URIAction("Beli tiket",
-                                                   "https://www.cgv.id")
-                        )),
-                        new CarouselColumn(lineMovie.get(5).getMovieThumbnail(), lineMovie.get(5).getMovieTitle(), CGV_CINEMA, Arrays.asList(
-                        		new URIAction("Tonton Trailer",
-                        				lineMovie.get(5).getMovieTrailer()),
-                          new URIAction("Beli tiket",
-                                             "https://www.cgv.id")
                         ))
                 ));
 		
