@@ -4,6 +4,8 @@ from os.path import isfile
 from os.path import splitext
 import pickle
 
+import numpy as np
+
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
@@ -206,3 +208,16 @@ def stem_sequence_train_db(train_x, m_tokenizer, max_string_length):
     sequence_x = sequence.pad_sequences(sequence_x, maxlen=max_string_length)
 
     return sequence_x
+
+def get_intent(predict_results, intent_class):
+    intent = []
+    for row in predict_results:
+        max_idx = np.argmax(row)
+        if max_idx == 0 or (row < 0.5).all():
+            intent.append("unknown")
+        else:
+            for it, idx in intent_class.items():
+                if idx == max_idx:
+                    intent.append(it)
+
+    return intent

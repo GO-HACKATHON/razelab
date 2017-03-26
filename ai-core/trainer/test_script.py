@@ -10,7 +10,7 @@ def main(argv):
     m_tokenizer = pickle.load(open("model/tokenizer.pkl", "rb" ))
     intent_class = pickle.load(open("model/intent_dict.pkl", "rb" ))
 
-    test_string = ["hari Kamis ini ada film apa ya"]
+    test_string = ["Makan-makan yuk, enaknya dimana ya"]
     test_sequence = tc.stem_sequence_train_db(test_string, m_tokenizer, max_string_length)
 
     json_file = open('model/model_structure.json', 'r')
@@ -22,8 +22,10 @@ def main(argv):
     loaded_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     result = loaded_model.predict(test_sequence)
-    print(result)
-    print(intent_class)
+
+    output = tc.get_intent(result, intent_class)
+    print(output)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
