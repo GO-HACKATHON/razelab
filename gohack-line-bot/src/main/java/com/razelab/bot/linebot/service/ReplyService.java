@@ -64,15 +64,15 @@ public class ReplyService {
 		String imageUrl = "https://www.cgv.id/uploads/movie/compressed/MOV3104.jpg";
         CarouselTemplate carouselTemplate = new CarouselTemplate(
                 Arrays.asList(
-                        new CarouselColumn(lineMovie.get(0).getMovieThumbnail(), lineMovie.get(0).getMovieTitle(), CGV_CINEMA, Arrays.asList(
+                        new CarouselColumn(imageUrl, lineMovie.get(0).getMovieTitle(), CGV_CINEMA, Arrays.asList(
                                 new URIAction("Tonton Trailer",
-                                		lineMovie.get(0).getMovieTrailer()),
+                                		imageUrl),
                                 new URIAction("Beli tiket",
                                                    "https://www.cgv.id")
                         )),
-                        new CarouselColumn(lineMovie.get(1).getMovieThumbnail(), lineMovie.get(1).getMovieTitle(), CGV_CINEMA, Arrays.asList(
+                        new CarouselColumn(imageUrl, lineMovie.get(1).getMovieTitle(), CGV_CINEMA, Arrays.asList(
                         		new URIAction("Tonton Trailer",
-                        				lineMovie.get(1).getMovieTrailer()),
+                        				imageUrl),
                           new URIAction("Beli tiket",
                                              "https://www.cgv.id")
                         ))
