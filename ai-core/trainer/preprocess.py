@@ -43,11 +43,6 @@ regions = list_to_predefined(region_file)
 name_file = "db/list_name.txt"
 names = list_to_predefined(name_file)
 
-# nama-nama jalan
-jalan_file = "db/list_jalan.txt"
-jalans = "(jalan|jl|jln([-\s]?" + list_to_predefined(jalan_file) + "))"
-
-
 numbers = "(^a(?=\s)|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh| \
 		sebelas|dua belas|tiga belas|empat belas|lima belas|enam belas|tujuh belas|delapan belas| \
 		sembilan belas|dua puluh|tiga puluh|empat puluh|lima puluh|enam puluh|tujuh puluh| \
@@ -67,7 +62,6 @@ regex_nama = re.compile(names)
 regex_time_rel = re.compile(rel_day, re.IGNORECASE)
 regex_time_exp1 = re.compile(regxp1, re.IGNORECASE)
 regex_time_day = re.compile(day, re.IGNORECASE)
-regex_jalan = re.compile(jalans, re.IGNORECASE)
 
 
 hashweekdays = {
@@ -339,11 +333,16 @@ def main():
 	loaded_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 	predict_result = loaded_model.predict(input_sequence)
-	print(predict_result)
-	print(intent_class)
+	# print(predict_result)
+	# print(intent_class)
+	output_intent = tc.get_intent(predict_result, intent_class)
 
+	print("input: ")
+	print(input_chat)
 	result = tag(input_chat)
 	print(result)
+	print(output_intent)
+	info["intent"] = output_intent
 
 	# dump json output
 	output = json.dumps(info)

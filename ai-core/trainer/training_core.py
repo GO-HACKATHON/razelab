@@ -44,7 +44,7 @@ def train_model(train_x, train_y, intent_pool_size, max_string_length):
     model_cnn.add(Dense(intent_pool_size+1, activation='sigmoid'))
     model_cnn.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     #print(model_cnn.summary())
-    model_cnn.fit(train_x, train_y, nb_epoch=50, batch_size=3)
+    model_cnn.fit(train_x, train_y, nb_epoch=30, batch_size=3)
 
     return model_cnn
 
