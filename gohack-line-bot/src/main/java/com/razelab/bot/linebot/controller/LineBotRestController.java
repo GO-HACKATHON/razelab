@@ -63,9 +63,9 @@ public class LineBotRestController {
 
 			HttpEntity<String> entity = new HttpEntity<String>(obj.toString(), newHeaders);
 			String url = "http://localhost:9093/chatInput/";
-			ResponseEntity<JSONObject> response = restTemplate.exchange(url, HttpMethod.POST, entity, JSONObject.class);
-			
-			JSONArray intent = response.getBody().getJSONArray("intent");
+			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+			System.out.println(response.getBody());
+			/*JSONArray intent = response.getBody().getJSONArray("intent");
 			String nama = response.getBody().getString("nama");
 			String lokasi = response.getBody().getString("lokasi");
 			String waktu = response.getBody().getString("waktu");
@@ -75,8 +75,8 @@ public class LineBotRestController {
 			   for (int j=0;i<intent.length();i++){ 
 				   listIntent.add(intent.getString(i));
 			   } 
-			} 
-			String processIntent = listIntent.get(0);
+			} */
+			String processIntent = "film";
 			// TODO Save Session
 			AiReply reply = null;
 			switch (processIntent) {
