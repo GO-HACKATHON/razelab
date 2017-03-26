@@ -25,14 +25,11 @@ def list_to_predefined(filename):
 	output = "".join(s)
 	return output
 
-# load pickle file
-entity_file = open("db/entity.pkl","rb")
-pk = pickle.load(entity_file)
 
 # final information consists of region, date, etc
-info = {"nama":"", 
-	"lokasi":"", 
-	"waktu":"", 
+info = {"nama":"",
+	"lokasi":"",
+	"waktu":"",
 	}
 
 # list of dictionaries
@@ -62,7 +59,7 @@ exp1 = "(sebelumnya|setelahnya|lalu|yang lalu|depan|lagi)"
 regxp1 = "((\d+|(" + numbers + "[-\s]?)+) " + dmy + "s? " + exp1 + ")"
 
 regex_region = re.compile(regions, re.IGNORECASE)
-regex_nama = re.compile(names, re.IGNORECASE)
+regex_nama = re.compile(names)
 regex_time_rel = re.compile(rel_day, re.IGNORECASE)
 regex_time_exp1 = re.compile(regxp1, re.IGNORECASE)
 regex_time_day = re.compile(day, re.IGNORECASE)
@@ -261,7 +258,7 @@ def tag_time(text):
 
 	for timex in timex_found:
 		info["waktu"] = str(find_time(timex))
-		
+
 	return text
 
 def tag_entity(pk, text):
@@ -303,6 +300,10 @@ def tag_entity(pk, text):
 # Input: user chat in string type
 # Return: Output for training in deep learning
 def tag(text):
+	# load pickle file
+	entity_file = open("db/entity/entity.pkl","rb")
+	pk = pickle.load(entity_file)
+
 	result = tag_region(text)
 	result = tag_time(result)
 	result = tag_name(result)
@@ -324,7 +325,7 @@ def main():
 	output_file = "usage/outputChat.txt"
 	f = open(output_file, 'w')
 	f.write(output)
-	
+
 	print(output)
 
 
