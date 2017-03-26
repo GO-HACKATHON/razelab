@@ -1,6 +1,7 @@
 package com.razelab.bot.linebot.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.Action;
 import com.linecorp.bot.model.action.MessageAction;
+import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
@@ -46,7 +49,13 @@ public class ReplyService {
 			actions = new ArrayList<>();
 			actions.add(new MessageAction("trailer", "trailer"));
 			actions.add(new MessageAction("beli", "beli"));
-			column = new CarouselColumn(lineMovie.get(i).getMovieThumbnail(), lineMovie.get(i).getMovieTitle(), lineMovie.get(i).getMovieSynopsis(),actions);
+			
+			
+			column = new CarouselColumn(lineMovie.get(i).getMovieThumbnail(), lineMovie.get(i).getMovieTitle(), lineMovie.get(i).getMovieSynopsis(),Arrays.asList(
+                    new URIAction("Go to line.me",
+                            "https://line.me"),
+              new PostbackAction("Say hello1",
+                                 "hello こんにちは")));
 			columnList.add(column);
 		}
 		
