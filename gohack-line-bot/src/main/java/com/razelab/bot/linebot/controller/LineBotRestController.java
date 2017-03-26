@@ -54,7 +54,7 @@ public class LineBotRestController {
 			
 			// Access Trainer Server
 			HttpHeaders newHeaders = new HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_JSON);
+			newHeaders.setContentType(MediaType.APPLICATION_JSON);
 			RestTemplate restTemplate = new RestTemplate();
 			JSONObject obj = new JSONObject();
 			obj.put("sentence", event.getMessage().getText());
