@@ -3,6 +3,8 @@ package com.razelab.bot.linebot.controller;
 import java.awt.List;
 import java.io.IOException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +41,7 @@ public class LineBotRestController {
 	ReplyService replyService;
 
 	@RequestMapping(path = "/", method = RequestMethod.POST)
-	public String botEngine(@RequestBody LineRequestEvent body, @RequestHeader HttpHeaders headers) throws IOException {
+	public String botEngine(@RequestBody LineRequestEvent body, @RequestHeader HttpHeaders headers) throws IOException, JSONException {
 
 		//System.out.println("Someone sent text");
 		int eventN = body.getEvents().size();
@@ -49,10 +51,30 @@ public class LineBotRestController {
 			AiProfile profile = new AiProfile("line", event.getSource().getUserId());
 			String profileName = getProfileName(profile.getIdNumber());
 
+			
+			// Access Trainer Server
+			HttpHeaders newHeaders = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			RestTemplate restTemplate = new RestTemplate();
+			JSONObject obj = new JSONObject();
+			obj.put("sentence", event.getMessage().getText());
+
+			HttpEntity<String> entity = new HttpEntity<String>(obj.toString(), newHeaders);
+			String url = "http://1localhost:9093/chatInput/";
+			ResponseEntity<JSONObject> response = restTemplate.exchange(url, HttpMethod.POST, entity, JSONObject.class);
+
+			String intent = response.getBody().getString("intent");
+			String nama = response.getBody().getString("nama");
+			String lokasi = response.getBody().getString("lokasi");
+			String waktu = response.getBody().getString("waktu");
+			
+			String[] intentArray = intent.split("."); 
+			String processIntent = intentArray[0];
+			
 			// TODO Save Session
 			AiReply reply = null;
-			switch (0) {
-			case 0:{
+			switch (processIntent) {
+			case "film":{
 				
 				//Rekomendasi Film
 				CarouselTemplate movies = replyService.composeCarouselTemplate(CgvBlitz.getMovieList());
@@ -61,7 +83,7 @@ public class LineBotRestController {
 			}
 				
 				break;
-			case 1:
+			case "makan":
 				//Makanan
 				break;
 			default:
