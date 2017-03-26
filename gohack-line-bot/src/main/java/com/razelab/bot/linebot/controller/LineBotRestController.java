@@ -60,7 +60,7 @@ public class LineBotRestController {
 			obj.put("sentence", event.getMessage().getText());
 
 			HttpEntity<String> entity = new HttpEntity<String>(obj.toString(), newHeaders);
-			String url = "http://1localhost:9093/chatInput/";
+			String url = "http://localhost:9093/chatInput/";
 			ResponseEntity<JSONObject> response = restTemplate.exchange(url, HttpMethod.POST, entity, JSONObject.class);
 
 			String intent = response.getBody().getString("intent");

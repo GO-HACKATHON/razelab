@@ -23,7 +23,7 @@ public class UsageRestController {
 		FileWriter fw = new FileWriter(filename);
 		fw.write(request.getSentence());
 		fw.close();
-		UsageUtil.runTerminal("python preprocess.py");
+		UsageUtil.runTerminal("python3 preprocess.py");
 		return UsageUtil.readFile("usage/outputChat.txt");
 	}
 
