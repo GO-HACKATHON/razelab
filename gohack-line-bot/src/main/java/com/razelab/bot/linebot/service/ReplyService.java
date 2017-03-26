@@ -28,6 +28,7 @@ import com.razelab.bot.linebot.model.LineMovie;
 public class ReplyService {
 	
 	static final String CGV_CINEMA = "CGV Cinema";
+	static final String CGV_URL = "https://www.cgv.id";
 	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
@@ -44,24 +45,19 @@ public class ReplyService {
 	
 	public CarouselTemplate composeCarouselTemplate(List<LineMovie> lineMovie) {
 		//String 
-		/*List<CarouselColumn> columnList = new ArrayList<>();
+		List<CarouselColumn> columnList = new ArrayList<>();
 		CarouselColumn column;
-		List<Action> actions;
 		for(int i = 0; i<lineMovie.size();i++){
-			actions = new ArrayList<>();
-			actions.add(new MessageAction("trailer", "trailer"));
-			actions.add(new MessageAction("beli", "beli"));
 			
-			
-			column = new CarouselColumn(lineMovie.get(i).getMovieThumbnail(), lineMovie.get(i).getMovieTitle(), "synopsis",Arrays.asList(
+			column = new CarouselColumn(lineMovie.get(i).getMovieThumbnail(), lineMovie.get(i).getMovieTitle(), CGV_CINEMA, Arrays.asList(
                     new URIAction("Tonton Trailer",
                     		lineMovie.get(i).getMovieTrailer()),
               new PostbackAction("Beli Tiket",
-                                 "beli")));
+            		  CGV_URL)));
 			columnList.add(column);
-		}*/
+		}
 		
-		String imageUrl = "https://www.cgv.id/uploads/movie/compressed/MOV3104.jpg";
+		/*String imageUrl = "https://www.cgv.id/uploads/movie/compressed/MOV3104.jpg";
         CarouselTemplate carouselTemplate = new CarouselTemplate(
                 Arrays.asList(
                         new CarouselColumn(lineMovie.get(0).getMovieThumbnail(), lineMovie.get(0).getMovieTitle(), CGV_CINEMA, Arrays.asList(
@@ -77,8 +73,8 @@ public class ReplyService {
                                              "https://www.cgv.id")
                         ))
                 ));
-		
-		return carouselTemplate;
+		*/
+		return new CarouselTemplate(columnList);
 	}
 
 	
