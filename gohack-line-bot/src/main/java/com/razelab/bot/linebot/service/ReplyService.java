@@ -42,7 +42,7 @@ public class ReplyService {
 	
 	public CarouselTemplate composeCarouselTemplate(List<LineMovie> lineMovie) {
 		//String 
-		List<CarouselColumn> columnList = new ArrayList<>();
+		/*List<CarouselColumn> columnList = new ArrayList<>();
 		CarouselColumn column;
 		List<Action> actions;
 		for(int i = 0; i<lineMovie.size();i++){
@@ -57,9 +57,29 @@ public class ReplyService {
               new PostbackAction("Say hello1",
                                  "hello こんにちは")));
 			columnList.add(column);
-		}
+		}*/
 		
-		return new CarouselTemplate(columnList);
+		String imageUrl = "https://www.cgv.id/uploads/movie/compressed/MOV3104.jpg";
+        CarouselTemplate carouselTemplate = new CarouselTemplate(
+                Arrays.asList(
+                        new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+                                new URIAction("Go to line.me",
+                                              "https://line.me"),
+                                new PostbackAction("Say hello1",
+                                                   "hello こんにちは")
+                        )),
+                        new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
+                                new PostbackAction("言 hello2",
+                                                   "hello こんにちは",
+                                                   "hello こんにちは"),
+                                new MessageAction("Say message",
+                                                  "Rice=米")
+                        ))
+                ));
+        TemplateMessage templateMessage = new TemplateMessage("Carousel alt text", carouselTemplate);
+       // this.reply(replyToken, templateMessage);
+		
+		return carouselTemplate;
 	}
 
 	
