@@ -36,10 +36,10 @@ public class CgvBlitz {
                 Elements thumbnail = movieDoc.select("div.poster-section img");
                 System.out.println(movieDoc.select("div.movie-info-title").text());
                 System.out.println(synopsis);
-                System.out.println(thumbnail.attr("abs:src"));
+                String thumbnailPic = thumbnail.attr("abs:src");
                 Elements trailer = movieDoc.select("div.trailer-section iframe");
                 String trailerLink = trailer.attr("abs:src");
-                movieList.add(  new LineMovie(thumbnail.toString(),movieDoc.select("div.movie-info-title").text(), synopsis.toString(), trailerLink));
+                movieList.add(  new LineMovie(thumbnailPic,movieDoc.select("div.movie-info-title").text(), synopsis.toString(), trailerLink));
               
 
             }
