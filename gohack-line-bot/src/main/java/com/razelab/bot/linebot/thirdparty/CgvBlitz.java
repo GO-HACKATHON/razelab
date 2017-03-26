@@ -27,7 +27,7 @@ public class CgvBlitz {
 
             Elements contents = doc.select("div.movie-list-body");
             Elements movies = contents.select("ul li");
-            for (int i = 0; i<8 ; i++) {
+            for (int i = 0; i<4 ; i++) {
             //for (Element movie : movies) {
             	Elements links = movies.get(i).select("a[href]");
                 movieDoc = Jsoup.connect("https://www.cgv.id"+links.get(0).attr("href")).get();

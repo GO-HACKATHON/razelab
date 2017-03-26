@@ -45,7 +45,7 @@ public class ReplyService {
 	
 	public CarouselTemplate composeCarouselTemplate(List<LineMovie> lineMovie) {
 		//String 
-		List<CarouselColumn> columnList = new ArrayList<>();
+		/*List<CarouselColumn> columnList = new ArrayList<>();
 		CarouselColumn column;
 		for(int i = 0; i<lineMovie.size();i++){
 			
@@ -55,9 +55,8 @@ public class ReplyService {
               new PostbackAction("Beli Tiket",
             		  CGV_URL)));
 			columnList.add(column);
-		}
+		}*/
 		
-		/*String imageUrl = "https://www.cgv.id/uploads/movie/compressed/MOV3104.jpg";
         CarouselTemplate carouselTemplate = new CarouselTemplate(
                 Arrays.asList(
                         new CarouselColumn(lineMovie.get(0).getMovieThumbnail(), lineMovie.get(0).getMovieTitle(), CGV_CINEMA, Arrays.asList(
@@ -71,10 +70,22 @@ public class ReplyService {
                         				lineMovie.get(1).getMovieTrailer()),
                           new URIAction("Beli tiket",
                                              "https://www.cgv.id")
+                        )),
+                        new CarouselColumn(lineMovie.get(2).getMovieThumbnail(), lineMovie.get(2).getMovieTitle(), CGV_CINEMA, Arrays.asList(
+                                new URIAction("Tonton Trailer",
+                                		lineMovie.get(2).getMovieTrailer()),
+                                new URIAction("Beli tiket",
+                                                   "https://www.cgv.id")
+                        )),
+                        new CarouselColumn(lineMovie.get(3).getMovieThumbnail(), lineMovie.get(3).getMovieTitle(), CGV_CINEMA, Arrays.asList(
+                        		new URIAction("Tonton Trailer",
+                        				lineMovie.get(3).getMovieTrailer()),
+                          new URIAction("Beli tiket",
+                                             "https://www.cgv.id")
                         ))
                 ));
-		*/
-		return new CarouselTemplate(columnList);
+		
+		return carouselTemplate;
 	}
 
 	
