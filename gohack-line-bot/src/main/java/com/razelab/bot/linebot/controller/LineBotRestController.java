@@ -2,7 +2,9 @@ package com.razelab.bot.linebot.controller;
 
 import java.awt.List;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,28 +65,34 @@ public class LineBotRestController {
 			String url = "http://localhost:9093/chatInput/";
 			ResponseEntity<JSONObject> response = restTemplate.exchange(url, HttpMethod.POST, entity, JSONObject.class);
 
-			String intent = response.getBody().getString("intent");
+			JSONArray intent = response.getBody().getJSONArray("intent");
 			String nama = response.getBody().getString("nama");
 			String lokasi = response.getBody().getString("lokasi");
 			String waktu = response.getBody().getString("waktu");
 			
-			String[] intentArray = intent.split("."); 
-			String processIntent = intentArray[0];
+			ArrayList<String> listIntent = new ArrayList<String>();
+			if (intent != null) { 
+			   for (int j=0;i<intent.length();i++){ 
+				   listIntent.add(intent.getString(i));
+			   } 
+			} 
+			String processIntent = listIntent.get(0);
 			
 			// TODO Save Session
 			AiReply reply = null;
 			switch (processIntent) {
 			case "film":{
-				
 				//Rekomendasi Film
 				CarouselTemplate movies = replyService.composeCarouselTemplate(CgvBlitz.getMovieList());
 				replyService.composeCarouselReply(event, movies);
-				
 			}
-				
 				break;
 			case "makan":
 				//Makanan
+				break;
+			case "unknown":
+				reply = new AiReply("none", "none", "Hi " + profileName + ", ini adalah demo untuk Gojek Hackathon","none", "none");
+				replyService.composeTextReply(event, reply);
 				break;
 			default:
 				reply = new AiReply("none", "none", "Hi " + profileName + ", ini adalah demo untuk Gojek Hackathon","none", "none");
