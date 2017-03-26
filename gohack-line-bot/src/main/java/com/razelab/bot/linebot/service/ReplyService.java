@@ -27,6 +27,8 @@ import com.razelab.bot.linebot.model.LineMovie;
 @Service("replyService")
 public class ReplyService {
 	
+	static final String CGV_CINEMA = "CGV Cinema";
+	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
@@ -42,7 +44,7 @@ public class ReplyService {
 	
 	public CarouselTemplate composeCarouselTemplate(List<LineMovie> lineMovie) {
 		//String 
-		List<CarouselColumn> columnList = new ArrayList<>();
+		/*List<CarouselColumn> columnList = new ArrayList<>();
 		CarouselColumn column;
 		List<Action> actions;
 		for(int i = 0; i<lineMovie.size();i++){
@@ -57,27 +59,26 @@ public class ReplyService {
               new PostbackAction("Beli Tiket",
                                  "beli")));
 			columnList.add(column);
-		}
+		}*/
 		
-		/*String imageUrl = "https://www.cgv.id/uploads/movie/compressed/MOV3104.jpg";
+		String imageUrl = "https://www.cgv.id/uploads/movie/compressed/MOV3104.jpg";
         CarouselTemplate carouselTemplate = new CarouselTemplate(
                 Arrays.asList(
-                        new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                new URIAction("Go to line.me",
-                                              "https://line.me"),
-                                new PostbackAction("Say hello1",
-                                                   "hello こんにちは")
+                        new CarouselColumn(lineMovie.get(0).getMovieThumbnail(), lineMovie.get(0).getMovieTitle(), CGV_CINEMA, Arrays.asList(
+                                new URIAction("Tonton Trailer",
+                                		lineMovie.get(0).getMovieTrailer()),
+                                new URIAction("Beli tiket",
+                                                   "https://www.cgv.id")
                         )),
-                        new CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList(
-                                new PostbackAction("言 hello2",
-                                                   "hello こんにちは",
-                                                   "hello こんにちは"),
-                                new MessageAction("Say message",
-                                                  "Rice=米")
+                        new CarouselColumn(lineMovie.get(1).getMovieThumbnail(), lineMovie.get(1).getMovieTitle(), CGV_CINEMA, Arrays.asList(
+                        		new URIAction("Tonton Trailer",
+                        				lineMovie.get(1).getMovieTrailer()),
+                          new URIAction("Beli tiket",
+                                             "https://www.cgv.id")
                         ))
-                ));*/
+                ));
 		
-		return new CarouselTemplate(columnList);
+		return carouselTemplate;
 	}
 
 	
