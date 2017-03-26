@@ -79,7 +79,7 @@ public class LineBotRestController {
 				   listIntent.add(intent.getString(j));
 			   } 
 			} 
-			String processIntent = "film";
+			String processIntent = listIntent.get(0);
 			// TODO Save Session
 			AiReply reply = null;
 			switch (processIntent) {
@@ -91,6 +91,8 @@ public class LineBotRestController {
 				break;
 			case "makan":
 				//Makanan
+				reply = new AiReply("none", "none", "Hi " + profileName + ", kamu lagi mau makan","none", "none");
+				replyService.composeTextReply(event, reply);
 				break;
 			case "unknown":
 				reply = new AiReply("none", "none", "Hi " + profileName + ", ini adalah demo untuk Gojek Hackathon","none", "none");
