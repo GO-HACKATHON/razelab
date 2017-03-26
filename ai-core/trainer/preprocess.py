@@ -12,6 +12,8 @@ import datetime
 import pickle
 import json
 from datetime import timedelta
+import training_core as tc
+from keras.models import model_from_json
 
 now = datetime.datetime.now()
 
@@ -40,9 +42,11 @@ regions = list_to_predefined(region_file)
 # nama orang
 name_file = "db/list_name.txt"
 names = list_to_predefined(name_file)
-# names = "(\b" + list_to_predefined(name_file) + "\b)"
-# names = "\bmau\b"
-# print(names)
+
+# nama-nama jalan
+jalan_file = "db/list_jalan.txt"
+jalans = "(jalan|jl|jln([-\s]?" + list_to_predefined(jalan_file) + "))"
+
 
 numbers = "(^a(?=\s)|satu|dua|tiga|empat|lima|enam|tujuh|delapan|sembilan|sepuluh| \
 		sebelas|dua belas|tiga belas|empat belas|lima belas|enam belas|tujuh belas|delapan belas| \
@@ -63,6 +67,7 @@ regex_nama = re.compile(names)
 regex_time_rel = re.compile(rel_day, re.IGNORECASE)
 regex_time_exp1 = re.compile(regxp1, re.IGNORECASE)
 regex_time_day = re.compile(day, re.IGNORECASE)
+regex_jalan = re.compile(jalans, re.IGNORECASE)
 
 
 hashweekdays = {
@@ -153,6 +158,7 @@ def hashnum(number):
 
 def find_time(timex, base_date=now):
 	# print("timex:" + timex)
+	timex = timex.lower()
 	date = base_date
 	today = base_date.weekday()
 	timex_val = 'UNKNOWN' # Default value
@@ -297,6 +303,7 @@ def tag_entity(pk, text):
 
 	return text
 
+
 # Input: user chat in string type
 # Return: Output for training in deep learning
 def tag(text):
@@ -311,16 +318,34 @@ def tag(text):
 	return result
 
 def main():
+	max_string_length = 50
+	m_tokenizer = pickle.load(open("model/tokenizer.pkl", "rb" ))
+	intent_class = pickle.load(open("model/intent_dict.pkl", "rb" ))
+
+
 	# chat = "nadiem mau pesan dua ayam kambing dan empat coca-cola di Kemang hari kamis"
 	input_filename="usage/inputChat.txt"
 	input_chat = ""
 	with open(input_filename) as f:
 		input_chat = f.read()
 
+	# input_chat = "mau pesen ayam ke jalan Krapu dong"
+	input_sequence = tc.stem_sequence_train_db([input_chat], m_tokenizer, max_string_length)
+	json_file = open('model/model_structure.json', 'r')
+	loaded_model_json = json_file.read()
+	json_file.close()
+	loaded_model = model_from_json(loaded_model_json)
+	loaded_model.load_weights("model/model_weights.h5")
+	loaded_model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+	predict_result = loaded_model.predict(input_sequence)
+	print(predict_result)
+	print(intent_class)
 
 	result = tag(input_chat)
 	print(result)
 
+	# dump json output
 	output = json.dumps(info)
 	output_file = "usage/outputChat.txt"
 	f = open(output_file, 'w')
